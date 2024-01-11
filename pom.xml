@@ -20,7 +20,7 @@
   <parent>
     <groupId>org.apache</groupId>
     <artifactId>apache</artifactId>
-    <version>30</version>
+    <version>31</version>
   </parent>
   <groupId>org.apache.accumulo</groupId>
   <artifactId>accumulo-examples</artifactId>
@@ -372,6 +372,43 @@
                     </pluginExecution>
                   </pluginExecutions>
                 </lifecycleMappingMetadata>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
+      <id>prometheus-metrics</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <finalName>accumulo-prometheus-metrics</finalName>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-jar-plugin</artifactId>
+              <configuration>
+                <archive>
+                  <addMavenDescriptor>false</addMavenDescriptor>
+                  <!-- <pomPropertiesFile>false</pomPropertiesFile> -->
+                  <manifestEntries>
+                    <Specification-Title>Accumulo Prometheus Metrics Example</Specification-Title>
+                    <Implementation-Title>Accumulo Prometheus Metrics Example</Implementation-Title>
+                    <Implementation-Build>${mvngit.commit.id}</Implementation-Build>
+                    <Sealed>true</Sealed>
+                  </manifestEntries>
+                </archive>
+                <includes>
+                  <include>org/apache/accumulo/examples/metrics/prometheus/*</include>
+                </includes>
+                <excludes>
+                  <exclude>**/log4j2-test.properties</exclude>
+                  <exclude>**/pom.xml</exclude>
+                  <exclude>**/pom.properties</exclude>
+                </excludes>
               </configuration>
             </plugin>
           </plugins>
