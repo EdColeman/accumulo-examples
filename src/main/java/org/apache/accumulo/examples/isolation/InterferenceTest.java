@@ -52,8 +52,8 @@ public final class InterferenceTest {
   private static final int NUM_COLUMNS = 113; // scanner batches 1000 by default, so make num
                                               // columns not a multiple of 10
   private static final String ERROR_MISSING_COLS = "ERROR Did not see {} columns in row {}";
-  private static final String ERROR_MULTIPLE_VALS = "ERROR Columns in row {} had multiple values "
-      + "{}";
+  private static final String ERROR_MULTIPLE_VALS =
+      "ERROR Columns in row {} had multiple values " + "{}";
 
   private static final Logger log = LoggerFactory.getLogger(InterferenceTest.class);
 

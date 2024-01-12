@@ -105,10 +105,8 @@ public class StatsCombiner extends Combiner {
   /**
    * A convenience method for setting the expected base/radix of the numbers
    *
-   * @param iterConfig
-   *          Iterator settings to configure
-   * @param base
-   *          The expected base/radix of the numbers.
+   * @param iterConfig Iterator settings to configure
+   * @param base The expected base/radix of the numbers.
    */
   public static void setRadix(IteratorSetting iterConfig, int base) {
     iterConfig.addOption(RADIX_OPTION, base + "");

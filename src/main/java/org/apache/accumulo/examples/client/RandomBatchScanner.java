@@ -77,8 +77,8 @@ public final class RandomBatchScanner {
       long lookups = 0;
 
       log.info("Reading ranges using BatchScanner");
-      try (BatchScanner scan = client.createBatchScanner(SequentialBatchWriter.BATCH_TABLE,
-          Authorizations.EMPTY, 20)) {
+      try (BatchScanner scan =
+          client.createBatchScanner(SequentialBatchWriter.BATCH_TABLE, Authorizations.EMPTY, 20)) {
         scan.setRanges(ranges);
         for (Entry<Key,Value> entry : scan) {
           Key key = entry.getKey();

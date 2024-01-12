@@ -17,8 +17,8 @@ public class Common {
 
   public static final String TABLE_EXISTS_MSG = "Table already exists. User may wish to delete "
       + "existing table and re-run example. Table name: ";
-  public static final String NAMESPACE_EXISTS_MSG = "Namespace already exists. User can ignore "
-      + "this message and continue. Namespace: ";
+  public static final String NAMESPACE_EXISTS_MSG =
+      "Namespace already exists. User can ignore " + "this message and continue. Namespace: ";
 
   /**
    * Create a table within the supplied namespace.
@@ -26,10 +26,8 @@ public class Common {
    * The incoming table name is expected to have the form "namespace.tablename". If the namespace
    * portion of the name is blank then the table is created outside of a namespace.
    *
-   * @param client
-   *          AccumuloClient instance
-   * @param table
-   *          The name of the table to be created
+   * @param client AccumuloClient instance
+   * @param table The name of the table to be created
    */
   public static void createTableWithNamespace(final AccumuloClient client, final String table)
       throws AccumuloException, AccumuloSecurityException {

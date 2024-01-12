@@ -45,8 +45,8 @@ public final class VerifyIngest {
     opts.parseArgs(VerifyIngest.class.getName(), args);
 
     try (AccumuloClient client = Accumulo.newClient().from(opts.getClientPropsPath()).build();
-        Scanner scanner = client.createScanner(SetupTable.BULK_INGEST_TABLE,
-            Authorizations.EMPTY)) {
+        Scanner scanner =
+            client.createScanner(SetupTable.BULK_INGEST_TABLE, Authorizations.EMPTY)) {
 
       scanner.setRange(new Range(String.format(ROW_FORMAT, 0), null));
 

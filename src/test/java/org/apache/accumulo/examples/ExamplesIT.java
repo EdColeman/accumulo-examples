@@ -230,8 +230,8 @@ public class ExamplesIT extends AccumuloClusterHarness {
     // should find ourselves
     assertTrue(found.stream().anyMatch(file -> file.endsWith("/ExamplesIT.java")));
 
-    String[] args = new String[] {"-c", getClientPropsFile(), "--shardTable", shard, "--doc2Term",
-        index};
+    String[] args =
+        new String[] {"-c", getClientPropsFile(), "--shardTable", shard, "--doc2Term", index};
 
     // create a reverse index
     goodExec(Reverse.class, args);
@@ -275,8 +275,8 @@ public class ExamplesIT extends AccumuloClusterHarness {
     if (fs.exists(output)) {
       fs.delete(output, true);
     }
-    args = new String[] {"-c", getClientPropsFile(), "-t", tableName, "--output",
-        output.toString()};
+    args =
+        new String[] {"-c", getClientPropsFile(), "-t", tableName, "--output", output.toString()};
     goodExec(TableToFile.class, args);
   }
 

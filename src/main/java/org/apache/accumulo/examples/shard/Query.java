@@ -93,8 +93,8 @@ public class Query {
     try (AccumuloClient client = Accumulo.newClient().from(opts.getClientPropsPath()).build();
         BatchScanner bs = client.createBatchScanner(opts.tableName, Authorizations.EMPTY, 10)) {
       if (opts.useSample) {
-        SamplerConfiguration samplerConfig = client.tableOperations()
-            .getSamplerConfiguration(opts.tableName);
+        SamplerConfiguration samplerConfig =
+            client.tableOperations().getSamplerConfiguration(opts.tableName);
         CutoffIntersectingIterator.validateSamplerConfig(
             client.tableOperations().getSamplerConfiguration(opts.tableName));
         bs.setSamplerConfiguration(samplerConfig);

@@ -127,8 +127,11 @@ public class TracingExample {
       // Trace the read operation.
       Span span = tracer.spanBuilder("readEntries").startSpan();
       try (Scope scope = span.makeCurrent()) {
-        long numberOfEntriesRead = scanner.stream().peek(entry -> System.out
-            .println(entry.getKey().toString() + " -> " + entry.getValue().toString())).count();
+        long numberOfEntriesRead =
+            scanner.stream()
+                .peek(entry -> System.out
+                    .println(entry.getKey().toString() + " -> " + entry.getValue().toString()))
+                .count();
         // You can add additional metadata (key, values) to Spans
         span.setAttribute("Number of Entries Read", numberOfEntriesRead);
       } finally {

@@ -52,8 +52,8 @@ public class SampleExample {
   static final PluginConfig selectorCfg = new PluginConfig(
       "org.apache.accumulo.tserver.compaction.strategies.ConfigurableCompactionStrategy",
       Map.of("SF_NO_SAMPLE", ""));
-  static final CompactionConfig NO_SAMPLE_STRATEGY = new CompactionConfig()
-      .setSelector(selectorCfg);
+  static final CompactionConfig NO_SAMPLE_STRATEGY =
+      new CompactionConfig().setSelector(selectorCfg);
 
   static class Opts extends ClientOnDefaultTable {
     public Opts() {
@@ -71,8 +71,8 @@ public class SampleExample {
 
       // write some data
       try (
-          BatchWriter bw = client.createBatchWriter(opts.getTableName(),
-              bwOpts.getBatchWriterConfig());
+          BatchWriter bw =
+              client.createBatchWriter(opts.getTableName(), bwOpts.getBatchWriterConfig());
           Scanner scanner = client.createScanner(opts.getTableName(), Authorizations.EMPTY)) {
         bw.addMutation(createMutation("9225", "abcde", "file://foo.txt"));
         bw.addMutation(createMutation("8934", "accumulo scales", "file://accumulo_notes.txt"));

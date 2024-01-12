@@ -45,8 +45,8 @@ public final class SetupTable {
 
     try (AccumuloClient client = Accumulo.newClient().from(opts.getClientPropsPath()).build()) {
       // create a table with initial partitions
-      TreeSet<Text> initialPartitions = splits.map(Text::new)
-          .collect(Collectors.toCollection(TreeSet::new));
+      TreeSet<Text> initialPartitions =
+          splits.map(Text::new).collect(Collectors.toCollection(TreeSet::new));
       Common.createTableWithNamespace(client, BULK_INGEST_TABLE,
           new NewTableConfiguration().withSplits(initialPartitions));
     }

@@ -91,8 +91,8 @@ public class ARS {
 
     // it is important to use an isolated scanner so that only whole mutations are seen
     try (
-        ConditionalWriter cwriter = client.createConditionalWriter(rTable,
-            new ConditionalWriterConfig());
+        ConditionalWriter cwriter =
+            client.createConditionalWriter(rTable, new ConditionalWriterConfig());
         Scanner scanner = client.createScanner(rTable, Authorizations.EMPTY);
         Scanner isolatedScanner = new IsolatedScanner(scanner)) {
       while (true) {
@@ -175,8 +175,8 @@ public class ARS {
 
     // its important to use an isolated scanner so that only whole mutations are seen
     try (
-        ConditionalWriter cwriter = client.createConditionalWriter(rTable,
-            new ConditionalWriterConfig());
+        ConditionalWriter cwriter =
+            client.createConditionalWriter(rTable, new ConditionalWriterConfig());
         Scanner scanner = client.createScanner(rTable, Authorizations.EMPTY);
         Scanner isolatedScanner = new IsolatedScanner(scanner)) {
       while (true) {
@@ -200,8 +200,8 @@ public class ARS {
         }
 
         if (reservation != null) {
-          ConditionalMutation update = new ConditionalMutation(row,
-              new Condition("tx", "seq").setValue(seq + ""));
+          ConditionalMutation update =
+              new ConditionalMutation(row, new Condition("tx", "seq").setValue(seq + ""));
           update.putDelete("res", reservation);
           update.put("tx", "seq", (seq + 1) + "");
 
@@ -300,8 +300,8 @@ public class ARS {
       } else if (tokens[0].equals("connect") && tokens.length == 6 && ars == null) {
 
         // the client can't be closed here, because it is passed to the new ARS object
-        AccumuloClient client = Accumulo.newClient().to(tokens[1], tokens[2])
-            .as(tokens[3], tokens[4]).build();
+        AccumuloClient client =
+            Accumulo.newClient().to(tokens[1], tokens[2]).as(tokens[3], tokens[4]).build();
         if (client.tableOperations().exists(tokens[5])) {
           ars = new ARS(client, tokens[5]);
           out.println("  connected");

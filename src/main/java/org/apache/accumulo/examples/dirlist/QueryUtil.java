@@ -57,8 +57,7 @@ public class QueryUtil {
   /**
    * Calculates the depth of a path, i.e. the number of forward slashes in the path name.
    *
-   * @param path
-   *          the full path of a file or directory
+   * @param path the full path of a file or directory
    * @return the depth of the path
    */
   public static int getDepth(String path) {
@@ -73,8 +72,7 @@ public class QueryUtil {
    * Given a path, construct an accumulo row prepended with the path's depth for the directory
    * table.
    *
-   * @param path
-   *          the full path of a file or directory
+   * @param path the full path of a file or directory
    * @return the accumulo row associated with this path
    */
   public static Text getRow(String path) {
@@ -87,8 +85,7 @@ public class QueryUtil {
    * Given a path, construct an accumulo row prepended with the {@link #FORWARD_PREFIX} for the
    * index table.
    *
-   * @param path
-   *          the full path of a file or directory
+   * @param path the full path of a file or directory
    * @return the accumulo row associated with this path
    */
   public static Text getForwardIndex(String path) {
@@ -104,8 +101,7 @@ public class QueryUtil {
    * Given a path, construct an accumulo row prepended with the {@link #REVERSE_PREFIX} with the
    * path reversed for the index table.
    *
-   * @param path
-   *          the full path of a file or directory
+   * @param path the full path of a file or directory
    * @return the accumulo row associated with this path
    */
   public static Text getReverseIndex(String path) {
@@ -124,8 +120,7 @@ public class QueryUtil {
   /**
    * Returns either the {@link #DIR_COLF} or a decoded string version of the colf.
    *
-   * @param colf
-   *          the column family
+   * @param colf the column family
    */
   public static String getType(Text colf) {
     if (colf.equals(DIR_COLF))
@@ -136,8 +131,7 @@ public class QueryUtil {
   /**
    * Scans over the directory table and pulls out stat information about a path.
    *
-   * @param path
-   *          the full path of a file or directory
+   * @param path the full path of a file or directory
    */
   public Map<String,String> getData(String path) throws TableNotFoundException {
     if (path.endsWith("/"))
@@ -158,8 +152,7 @@ public class QueryUtil {
   /**
    * Uses the directory table to list the contents of a directory.
    *
-   * @param path
-   *          the full path of a directory
+   * @param path the full path of a directory
    */
   public Map<String,Map<String,String>> getDirList(String path) throws TableNotFoundException {
     if (!path.endsWith("/"))
@@ -185,8 +178,7 @@ public class QueryUtil {
   /**
    * Scans over the index table for files or directories with a given name.
    *
-   * @param term
-   *          the name a file or directory to search for
+   * @param term the name a file or directory to search for
    */
   public Iterable<Entry<Key,Value>> exactTermSearch(String term) throws Exception {
     System.out.println("executing exactTermSearch for " + term);
@@ -199,9 +191,8 @@ public class QueryUtil {
    * Scans over the index table for files or directories with a given name, prefix, or suffix
    * (indicated by a wildcard '*' at the beginning or end of the term.
    *
-   * @param exp
-   *          the name a file or directory to search for with an optional wildcard '*' at the
-   *          beginning or end
+   * @param exp the name a file or directory to search for with an optional wildcard '*' at the
+   *        beginning or end
    */
   public Iterable<Entry<Key,Value>> singleRestrictedWildCardSearch(String exp) throws Exception {
     if (exp.contains("/"))
@@ -228,8 +219,7 @@ public class QueryUtil {
    * Scans over the index table for files or directories with a given name that can contain a single
    * wildcard '*' anywhere in the term.
    *
-   * @param exp
-   *          the name a file or directory to search for with one optional wildcard '*'
+   * @param exp the name a file or directory to search for with one optional wildcard '*'
    */
   public Iterable<Entry<Key,Value>> singleWildCardSearch(String exp) throws Exception {
     int starIndex = exp.indexOf("*");

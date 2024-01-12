@@ -93,8 +93,8 @@ public final class BulkIngestExample {
 
       int index = 0;
       for (Text value : values) {
-        Key outputKey = new Key(key, new Text("colf"), new Text(String.format("col_%07d", index)),
-            timestamp);
+        Key outputKey =
+            new Key(key, new Text("colf"), new Text(String.format("col_%07d", index)), timestamp);
         index++;
 
         Value outputValue = new Value(value.getBytes(), 0, value.getLength());
@@ -113,8 +113,8 @@ public final class BulkIngestExample {
   }
 
   private static void generateTestData(FileSystem fs) throws IOException {
-    try (PrintStream out = new PrintStream(
-        new BufferedOutputStream(fs.create(new Path(outputFile))))) {
+    try (PrintStream out =
+        new PrintStream(new BufferedOutputStream(fs.create(new Path(outputFile))))) {
       for (int i = 0; i < numRows; i++) {
         out.printf("row_%010d\tvalue_%010d%n", i, i);
       }
@@ -140,10 +140,10 @@ public final class BulkIngestExample {
 
     try (AccumuloClient client = opts.createAccumuloClient()) {
 
-      try (PrintStream out = new PrintStream(
-          new BufferedOutputStream(fs.create(new Path(workDir + SPLITS_TXT))))) {
-        Collection<Text> splits = client.tableOperations().listSplits(SetupTable.BULK_INGEST_TABLE,
-            100);
+      try (PrintStream out =
+          new PrintStream(new BufferedOutputStream(fs.create(new Path(workDir + SPLITS_TXT))))) {
+        Collection<Text> splits =
+            client.tableOperations().listSplits(SetupTable.BULK_INGEST_TABLE, 100);
         for (Text split : splits)
           out.println(Base64.getEncoder().encodeToString(split.copyBytes()));
         job.setNumReduceTasks(splits.size() + 1);

@@ -49,10 +49,8 @@ public class RandomBatchWriter {
   /**
    * Creates a random byte array of specified size using the specified seed.
    *
-   * @param rowid
-   *          the seed to use for the random number generator
-   * @param dataSize
-   *          the size of the array
+   * @param rowid the seed to use for the random number generator
+   * @param dataSize the size of the array
    * @return a random byte array
    */
   public static byte[] createValue(long rowid, int dataSize) {
@@ -73,12 +71,9 @@ public class RandomBatchWriter {
    * Creates a mutation on a specified row with column family "foo", column qualifier "1", specified
    * visibility, and a random value of specified size.
    *
-   * @param rowid
-   *          the row of the mutation
-   * @param dataSize
-   *          the size of the random value
-   * @param visibility
-   *          the visibility of the entry to insert
+   * @param rowid the row of the mutation
+   * @param dataSize the size of the random value
+   * @param visibility the visibility of the entry to insert
    * @return a mutation
    */
   public static Mutation createMutation(long rowid, int dataSize, ColumnVisibility visibility) {
@@ -137,9 +132,8 @@ public class RandomBatchWriter {
     else {
       r = new Random(opts.seed);
     }
-    try (AccumuloClient client = opts.createAccumuloClient();
-        BatchWriter bw = client.createBatchWriter(opts.getTableName(),
-            bwOpts.getBatchWriterConfig())) {
+    try (AccumuloClient client = opts.createAccumuloClient(); BatchWriter bw =
+        client.createBatchWriter(opts.getTableName(), bwOpts.getBatchWriterConfig())) {
 
       // reuse the ColumnVisibility object to improve performance
       ColumnVisibility cv = opts.visiblity;

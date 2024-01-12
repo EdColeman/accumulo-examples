@@ -54,8 +54,8 @@ public class MapReduceIT extends ConfigurableMacBase {
     cfg.setProperty(Property.TSERV_NATIVEMAP_ENABLED, "false");
   }
 
-  public static final String hadoopTmpDirArg = "-Dhadoop.tmp.dir=" + System.getProperty("user.dir")
-      + "/target/hadoop-tmp";
+  public static final String hadoopTmpDirArg =
+      "-Dhadoop.tmp.dir=" + System.getProperty("user.dir") + "/target/hadoop-tmp";
 
   static final String tablename = "mapredf";
   static final String input_cf = "cf-HASHTYPE";
@@ -80,9 +80,9 @@ public class MapReduceIT extends ConfigurableMacBase {
           bw.addMutation(m);
         }
       }
-      MiniAccumuloClusterImpl.ProcessInfo hash = getCluster().exec(RowHash.class,
-          Collections.singletonList(hadoopTmpDirArg), "-c", confFile, "-t", tablename, "--column",
-          input_cfcq);
+      MiniAccumuloClusterImpl.ProcessInfo hash =
+          getCluster().exec(RowHash.class, Collections.singletonList(hadoopTmpDirArg), "-c",
+              confFile, "-t", tablename, "--column", input_cfcq);
       assertEquals(0, hash.getProcess().waitFor());
 
       try (Scanner s = client.createScanner(tablename, Authorizations.EMPTY)) {

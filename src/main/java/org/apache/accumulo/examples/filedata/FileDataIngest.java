@@ -50,13 +50,14 @@ public class FileDataIngest {
   public static final Text REFS_CF = new Text("refs");
   public static final String REFS_ORIG_FILE = "name";
   public static final String REFS_FILE_EXT = "filext";
-  public static final ByteSequence CHUNK_CF_BS = new ArrayByteSequence(CHUNK_CF.getBytes(), 0,
-      CHUNK_CF.getLength());
-  public static final ByteSequence REFS_CF_BS = new ArrayByteSequence(REFS_CF.getBytes(), 0,
-      REFS_CF.getLength());
+  public static final ByteSequence CHUNK_CF_BS =
+      new ArrayByteSequence(CHUNK_CF.getBytes(), 0, CHUNK_CF.getLength());
+  public static final ByteSequence REFS_CF_BS =
+      new ArrayByteSequence(REFS_CF.getBytes(), 0, REFS_CF.getLength());
 
-  public static final String TABLE_EXISTS_MSG = "Table already exists. User may wish to delete existing "
-      + "table and re-run example. Table name: ";
+  public static final String TABLE_EXISTS_MSG =
+      "Table already exists. User may wish to delete existing "
+          + "table and re-run example. Table name: ";
 
   final int chunkSize;
   final byte[] chunkSizeBytes;
@@ -190,8 +191,8 @@ public class FileDataIngest {
       Common.createTableWithNamespace(client, opts.getTableName(),
           new NewTableConfiguration().attachIterator(new IteratorSetting(1, ChunkCombiner.class)));
 
-      try (BatchWriter bw = client.createBatchWriter(opts.getTableName(),
-          bwOpts.getBatchWriterConfig())) {
+      try (BatchWriter bw =
+          client.createBatchWriter(opts.getTableName(), bwOpts.getBatchWriterConfig())) {
         FileDataIngest fdi = new FileDataIngest(opts.chunkSize, opts.visibility);
         for (String filename : opts.files) {
           fdi.insertFileData(filename, bw);

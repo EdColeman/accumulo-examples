@@ -36,10 +36,8 @@ public final class FormatUtil {
    * {@literal a ~chunk:\x00\x00\x00d\x00\x00\x00\x00 [A&B] 9223372036854775807 asdfjkl;}
    * {@literal a ~chunk:\x00\x00\x00d\x00\x00\x00\x00 [A&B] asdfjkl;}
    *
-   * @param entry
-   *          the table entry to format
-   * @param includeTimestamp
-   *          if true, include the timestamp in the returned result
+   * @param entry the table entry to format
+   * @param includeTimestamp if true, include the timestamp in the returned result
    * @return the specified entry as a formatted String, or null if the entry is null
    */
   public static String formatTableEntry(final Map.Entry<Key,Value> entry,

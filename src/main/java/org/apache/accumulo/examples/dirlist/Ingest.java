@@ -161,20 +161,20 @@ public final class Ingest {
     opts.parseArgs(Ingest.class.getName(), args, bwOpts);
 
     try (AccumuloClient client = opts.createAccumuloClient()) {
-      var newTableConfig = new NewTableConfiguration()
-          .attachIterator(new IteratorSetting(1, ChunkCombiner.class));
+      var newTableConfig =
+          new NewTableConfiguration().attachIterator(new IteratorSetting(1, ChunkCombiner.class));
 
       Common.createTableWithNamespace(client, opts.dirTable);
       Common.createTableWithNamespace(client, opts.indexTable);
       Common.createTableWithNamespace(client, opts.dataTable, newTableConfig);
 
       try (
-          BatchWriter dirBW = client.createBatchWriter(opts.dirTable,
-              bwOpts.getBatchWriterConfig());
-          BatchWriter indexBW = client.createBatchWriter(opts.indexTable,
-              bwOpts.getBatchWriterConfig());
-          BatchWriter dataBW = client.createBatchWriter(opts.dataTable,
-              bwOpts.getBatchWriterConfig())) {
+          BatchWriter dirBW =
+              client.createBatchWriter(opts.dirTable, bwOpts.getBatchWriterConfig());
+          BatchWriter indexBW =
+              client.createBatchWriter(opts.indexTable, bwOpts.getBatchWriterConfig());
+          BatchWriter dataBW =
+              client.createBatchWriter(opts.dataTable, bwOpts.getBatchWriterConfig())) {
         FileDataIngest fdi = new FileDataIngest(opts.chunkSize, opts.visibility);
         for (String dir : opts.directories) {
           recurse(new File(dir), opts.visibility, dirBW, indexBW, fdi, dataBW);
