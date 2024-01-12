@@ -17,13 +17,79 @@
 package org.apache.accumulo.metrics.prometheus;
 
 import org.apache.accumulo.core.metrics.MeterRegistryFactory;
+import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.servlet.ServletHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.prometheus.PrometheusConfig;
+import io.micrometer.prometheus.PrometheusMeterRegistry;
 
 public class AccumuloPrometheusRegistryFactory implements MeterRegistryFactory {
+  private static final Logger LOG =
+      LoggerFactory.getLogger(AccumuloPrometheusRegistryFactory.class);
+
+  public static final String SERVER_HOST = "metrics.prometheus.endpoint.host";
+  public static final String SERVER_PORT = "metrics.prometheus.endpoint.port";
 
   @Override
   public MeterRegistry create() {
-    return null;
+    String host = System.getProperty(SERVER_HOST, null);
+    String port = System.getProperty(SERVER_PORT, null);
+
+    if (host == null || port == null) {
+      throw new IllegalArgumentException("Host and Port cannot be null");
+    }
+
+    LOG.info("Starting prometheus metrics endpoint at host: {}, port:{}", host, port);
+
+    PrometheusMeterRegistry prometheusRegistry =
+        new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
+    prometheusRegistry.scrape();
+    return prometheusRegistry;
   }
+
+  private static class MetricsHttpServer implements AutoCloseable {
+
+    private final Server jetty;
+    private final int connectedPort;
+
+    public MetricsHttpServer(final int port) throws Exception {
+
+      jetty = new Server();
+
+      ServerConnector connector = new ServerConnector(jetty);
+      connector.setPort(port);
+      jetty.setConnectors(new Connector[] {connector});
+
+      ServletHandler servletHandler = new ServletHandler();
+      jetty.setHandler(servletHandler);
+
+      servletHandler.addServletWithMapping(PrometheusExporterServlet.class, "/metrics");
+
+      servletHandler.addServletWithMapping(CustomErrorServlet.class, "/*");
+
+      jetty.setStopAtShutdown(true);
+      jetty.setStopTimeout(5_000);
+
+      jetty.start();
+
+      connectedPort = ((ServerConnector) jetty.getConnectors()[0]).getLocalPort();
+
+      LOG.info("ZZZ: Metrics HTTP server port: {}", connectedPort);
+    }
+
+    public int getConnectedPort() {
+      return connectedPort;
+    }
+
+    @Override
+    public void close() throws Exception {
+      jetty.stop();
+    }
+  }
+
 }
