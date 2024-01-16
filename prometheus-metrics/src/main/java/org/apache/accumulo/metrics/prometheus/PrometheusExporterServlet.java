@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.micrometer.core.instrument.Metrics;
+import io.micrometer.core.instrument.composite.CompositeMeterRegistry;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
 
 public class PrometheusExporterServlet extends HttpServlet {
@@ -43,12 +44,26 @@ public class PrometheusExporterServlet extends HttpServlet {
 
     LOG.info("Registries: {}", Metrics.globalRegistry.getRegistries());
 
-    var x = Metrics.globalRegistry.getRegistries().stream()
-        .filter(r -> r instanceof PrometheusMeterRegistry).findFirst();
-
-    x.ifPresent(meterRegistry -> metrics = (PrometheusMeterRegistry) meterRegistry);
-
+    metrics = lookupPrometheusMeterRegistry();
     LOG.info("Metrics: {}", metrics);
+    
+  }
+
+  private PrometheusMeterRegistry lookupPrometheusMeterRegistry() {
+    // look in global registry.
+    var g = Metrics.globalRegistry.getRegistries().stream()
+        .filter(r -> r instanceof PrometheusMeterRegistry).findFirst();
+    if (g.isPresent()) {
+      return (PrometheusMeterRegistry) g.get();
+    }
+
+    // not in global registry, check composites
+    var c = (CompositeMeterRegistry) Metrics.globalRegistry.getRegistries().stream()
+        .filter(r -> r instanceof CompositeMeterRegistry).findFirst().get();
+
+    return (PrometheusMeterRegistry) c.getRegistries().stream()
+        .filter(r -> r instanceof PrometheusMeterRegistry).findFirst().get();
+
   }
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response)

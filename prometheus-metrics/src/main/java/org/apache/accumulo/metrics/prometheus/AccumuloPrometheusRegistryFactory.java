@@ -36,7 +36,7 @@ public class AccumuloPrometheusRegistryFactory implements MeterRegistryFactory {
 
   @Override
   public MeterRegistry create() {
-    String port = System.getProperty(METRICS_PROMETHEUS_ENDPOINT_PORT, null);
+    String port = System.getProperty(METRICS_PROMETHEUS_ENDPOINT_PORT, "0");
 
     if (port == null) {
       throw new IllegalArgumentException("port cannot be null");
@@ -82,8 +82,9 @@ public class AccumuloPrometheusRegistryFactory implements MeterRegistryFactory {
 
       jetty.start();
 
-      connectedPort = ((ServerConnector) jetty.getConnectors()[0]).getLocalPort();
+      LOG.info("prometheus metrics endpoint listening at: {}", jetty.getURI());
 
+      connectedPort = ((ServerConnector) jetty.getConnectors()[0]).getLocalPort();
       LOG.info("ZZZ: Metrics HTTP server port: {}", connectedPort);
     }
 

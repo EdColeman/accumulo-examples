@@ -28,11 +28,7 @@ class AccumuloPrometheusRegistryFactoryTest {
   public static void setup() {
     Properties p = System.getProperties();
     p.setProperty(AccumuloPrometheusRegistryFactory.METRICS_PROMETHEUS_ENDPOINT_PORT, "10123");
-
     composite = new CompositeMeterRegistry();
-
-    counter1 = Metrics.globalRegistry.counter("counter1", List.of());
-    counter1.increment();
 
     Metrics.addRegistry(composite);
 
@@ -41,7 +37,10 @@ class AccumuloPrometheusRegistryFactoryTest {
   @Test
   public void createTest() throws Exception {
     AccumuloPrometheusRegistryFactory factory = new AccumuloPrometheusRegistryFactory();
-    Metrics.addRegistry(factory.create());
+    composite.add(factory.create());
+
+    counter1 = composite.counter("counter1", List.of());
+    counter1.increment();
 
     Thread.sleep(5_000);
 
