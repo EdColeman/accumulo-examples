@@ -32,23 +32,28 @@ public class AccumuloPrometheusRegistryFactory implements MeterRegistryFactory {
   private static final Logger LOG =
       LoggerFactory.getLogger(AccumuloPrometheusRegistryFactory.class);
 
-  public static final String SERVER_HOST = "metrics.prometheus.endpoint.host";
-  public static final String SERVER_PORT = "metrics.prometheus.endpoint.port";
+  public static final String METRICS_PROMETHEUS_ENDPOINT_PORT = "metrics.prometheus.endpoint.port";
 
   @Override
   public MeterRegistry create() {
-    String host = System.getProperty(SERVER_HOST, null);
-    String port = System.getProperty(SERVER_PORT, null);
+    String port = System.getProperty(METRICS_PROMETHEUS_ENDPOINT_PORT, null);
 
-    if (host == null || port == null) {
-      throw new IllegalArgumentException("Host and Port cannot be null");
+    if (port == null) {
+      throw new IllegalArgumentException("port cannot be null");
     }
 
-    LOG.info("Starting prometheus metrics endpoint at host: {}, port:{}", host, port);
+    LOG.info("Starting prometheus metrics endpoint at port:{}", port);
 
     PrometheusMeterRegistry prometheusRegistry =
         new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
-    prometheusRegistry.scrape();
+
+    LOG.info("scrape: {}", prometheusRegistry.scrape());
+
+    try {
+      var endpoint = new AccumuloPrometheusRegistryFactory.MetricsHttpServer(Integer.valueOf(port));
+    } catch (Exception ex) {
+      throw new IllegalStateException(ex);
+    }
     return prometheusRegistry;
   }
 

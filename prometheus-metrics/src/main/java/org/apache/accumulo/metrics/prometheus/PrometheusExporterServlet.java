@@ -25,20 +25,30 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.micrometer.core.instrument.Metrics;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
 
 public class PrometheusExporterServlet extends HttpServlet {
-
+  private static final Logger LOG = LoggerFactory.getLogger(PrometheusExporterServlet.class);
   private static final long serialVersionUID = 1L;
 
   private transient PrometheusMeterRegistry metrics = null;
 
   @Override
   public void init() {
-    Metrics.globalRegistry.getRegistries().stream()
-        .filter(r -> r instanceof PrometheusMeterRegistry).findFirst()
-        .ifPresent(meterRegistry -> metrics = (PrometheusMeterRegistry) meterRegistry);
+    LOG.info("called servlet init;");
+
+    LOG.info("Registries: {}", Metrics.globalRegistry.getRegistries());
+
+    var x = Metrics.globalRegistry.getRegistries().stream()
+        .filter(r -> r instanceof PrometheusMeterRegistry).findFirst();
+
+    x.ifPresent(meterRegistry -> metrics = (PrometheusMeterRegistry) meterRegistry);
+
+    LOG.info("Metrics: {}", metrics);
   }
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
