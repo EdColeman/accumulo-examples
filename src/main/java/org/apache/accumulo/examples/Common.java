@@ -26,8 +26,10 @@ public class Common {
    * The incoming table name is expected to have the form "namespace.tablename". If the namespace
    * portion of the name is blank then the table is created outside of a namespace.
    *
-   * @param client AccumuloClient instance
-   * @param table The name of the table to be created
+   * @param client
+   *          AccumuloClient instance
+   * @param table
+   *          The name of the table to be created
    */
   public static void createTableWithNamespace(final AccumuloClient client, final String table)
       throws AccumuloException, AccumuloSecurityException {

@@ -29,7 +29,8 @@ public class KeyUtil {
   /**
    * Join some number of strings using a null byte separator into a text object.
    *
-   * @param s strings
+   * @param s
+   *          strings
    * @return a text object containing the strings separated by null bytes
    */
   public static Text buildNullSepText(String... s) {
@@ -44,7 +45,8 @@ public class KeyUtil {
   /**
    * Split a text object using a null byte separator into an array of strings.
    *
-   * @param t null-byte separated text object
+   * @param t
+   *          null-byte separated text object
    * @return an array of strings
    */
   public static String[] splitNullSepText(Text t) {

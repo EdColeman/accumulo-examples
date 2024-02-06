@@ -29,11 +29,12 @@
   <name>Apache Accumulo Examples</name>
   <description>Example code and corresponding documentation for using Apache Accumulo</description>
   <modules>
-    <module>prometheus-metrics</module>
+    <module>accumulo-examples-metrics/logging-metrics</module>
+    <module>accumulo-examples-metrics/prometheus-metrics</module>
   </modules>
   <properties>
     <accumulo.version>3.1.0-SNAPSHOT</accumulo.version>
-    <eclipseFormatterStyle>contrib/eclipse-codestyle.xml</eclipseFormatterStyle>
+    <eclipseFormatterStyle>./contrib/Eclipse-Accumulo-Codestyle.xml</eclipseFormatterStyle>
     <maven.compiler.release>11</maven.compiler.release>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>

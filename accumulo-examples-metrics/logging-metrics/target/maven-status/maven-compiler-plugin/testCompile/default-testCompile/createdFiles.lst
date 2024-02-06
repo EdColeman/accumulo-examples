@@ -1,0 +1,3 @@
+org/apache/accumulo/metrics/logging/LogSampleTest.class
+org/apache/accumulo/metrics/logging/LoggingRegistryFactoryTest.class
+org/apache/accumulo/metrics/logging/LoggingRegistryFactoryTest$MetricsSampleGen.class

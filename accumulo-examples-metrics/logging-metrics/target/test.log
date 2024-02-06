@@ -1,0 +1,3 @@
+[INFO ] 2024-02-06 22:40:59.577 [main] logging.LoggingRegistryFactory - starting metrics registration
+[INFO ] 2024-02-06 22:40:59.599 [main] push.PushMeterRegistry - publishing metrics for LoggingMeterRegistry every 10s
+[INFO ] 2024-02-06 22:40:59.603 [main] logging.LoggingRegistryFactoryTest - Starting metrics generation

@@ -1,0 +1,78 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+appender.console.type = Console
+appender.console.name = STDOUT
+appender.console.layout.type = PatternLayout
+appender.console.layout.pattern = [%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{2} - %msg%n
+
+logger.01.name = org.eclipse.jetty
+logger.01.level = warn
+
+logger.02.name = java.net.http
+logger.02.level = info
+
+appender.audit.type = RollingFile
+appender.audit.name = AuditLogFiles
+appender.audit.fileName = test.audit
+appender.audit.filePattern = test-%d{yyyy-MM-dd}-%i.audit.gz
+appender.audit.layout.type = PatternLayout
+appender.audit.layout.pattern = %d{ISO8601} [%-8c{2}] %-5p: %m%n
+appender.audit.policies.type = Policies
+appender.audit.policies.time.type = TimeBasedTriggeringPolicy
+appender.audit.policies.time.interval = 1
+appender.audit.policies.time.modulate = true
+appender.audit.policies.size.type = SizeBasedTriggeringPolicy
+appender.audit.policies.size.size=512MB
+appender.audit.strategy.type = DefaultRolloverStrategy
+appender.audit.strategy.max = 10
+
+# property.filename = ${sys:accumulo.log.dir}/${sys:accumulo.application}
+# property.filename = "./target/METRICS"
+
+appender.metrics.type = RollingFile
+appender.metrics.name = MetricsLog
+# appender.metrics.fileName = ${filename}.metrics
+appender.metrics.fileName = test.metrics
+appender.metrics.filePattern = ${filename}-%d{yyyy-MM-dd}-%i.metrics.gz
+appender.metrics.layout.type = PatternLayout
+appender.metrics.layout.pattern = %d{ISO8601} [%-8c{2}] %-5p: %m%n
+appender.metrics.policies.type = Policies
+appender.metrics.policies.time.type = TimeBasedTriggeringPolicy
+appender.metrics.policies.time.interval = 1
+appender.metrics.policies.time.modulate = true
+appender.metrics.policies.size.type = SizeBasedTriggeringPolicy
+appender.metrics.policies.size.size=512MB
+appender.metrics.strategy.type = DefaultRolloverStrategy
+appender.metrics.strategy.max = 10
+
+# uncomment for separate audit logs
+logger.metrics.name = org.apache.accumulo.metrics
+logger.metrics.level = info
+logger.metrics.additivity = false
+logger.metrics.appenderRef.ref = MetricsLog
+
+# uncomment for separate audit logs
+logger.audit.name = org.apache.accumulo.audit
+logger.audit.level = info
+logger.audit.additivity = false
+logger.audit.appenderRef.audit.ref = AuditLogFiles
+
+rootLogger=DEBUG, STDOUT
+
+# rootLogger.level = debug
+# rootLogger.appenderRefs = stdout
+# rootLogger.appenderRef.stdout.ref = STDOUT
+
